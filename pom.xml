@@ -8,11 +8,11 @@
 		<version>2.2.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>ir.rightel.bss</groupId>
+	<groupId>com.arioatlas</groupId>
 	<artifactId>eShop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>eShop</name>
-	<description>BSS e-shop </description>
+	<description>a simple e-shop </description>
 
 	<properties>
 		<java.version>1.8</java.version>
