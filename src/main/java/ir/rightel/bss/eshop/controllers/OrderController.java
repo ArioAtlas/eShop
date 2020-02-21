@@ -4,8 +4,11 @@ import ir.rightel.bss.eshop.models.Order;
 import ir.rightel.bss.eshop.resources.OrderResource;
 import ir.rightel.bss.eshop.services.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +19,14 @@ public class OrderController extends CoreController {
 
     @Autowired
     private ShopService shopService;
+
+    @Autowired
+    Validator orderValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder){
+        binder.addValidators(orderValidator);
+    }
 
     @GetMapping
     public List<OrderResource> index(){
@@ -35,7 +46,7 @@ public class OrderController extends CoreController {
     }
 
     @PostMapping
-    public Order create(@RequestBody Order order){
+    public Order create(@RequestBody @Valid Order order){
         if (order.getItems() != null) {
             order.getItems().forEach(item->{
                 item.setOrder(order);
@@ -58,7 +69,7 @@ public class OrderController extends CoreController {
     }
 
     @PostMapping("/{id}")
-    public Order edit(@PathVariable("id") long id, @RequestBody Order order){
+    public Order edit(@PathVariable("id") long id, @RequestBody @Valid Order order){
         Optional<Order> updated = shopService.getOrder(id);
         return updated.map(value -> shopService.saveOrder(value)).orElse(null);
     }

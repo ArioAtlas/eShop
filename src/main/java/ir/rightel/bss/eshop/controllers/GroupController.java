@@ -4,8 +4,11 @@ import ir.rightel.bss.eshop.models.ProductGroup;
 import ir.rightel.bss.eshop.resources.GroupResource;
 import ir.rightel.bss.eshop.services.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +19,14 @@ public class GroupController extends CoreController {
 
     @Autowired
     ShopService shopService;
+
+    @Autowired
+    Validator groupValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder){
+        binder.addValidators(groupValidator);
+    }
 
     @GetMapping
     public List<GroupResource> index(){
@@ -33,7 +44,7 @@ public class GroupController extends CoreController {
     }
 
     @PostMapping
-    public ProductGroup create(@RequestBody ProductGroup group){
+    public ProductGroup create(@RequestBody @Valid ProductGroup group){
         if(group.getGroupVariants()!=null){
             group.getGroupVariants().forEach(groupVariant -> {
                 groupVariant.setGroup(group);
@@ -56,7 +67,7 @@ public class GroupController extends CoreController {
     }
 
     @PostMapping("/{id}")
-    public ProductGroup edit(@PathVariable("id") long id,@RequestBody ProductGroup group){
+    public ProductGroup edit(@PathVariable("id") long id,@RequestBody @Valid ProductGroup group){
         Optional<ProductGroup> updated = shopService.getGroup(id);
 
         if(!updated.isPresent()){
