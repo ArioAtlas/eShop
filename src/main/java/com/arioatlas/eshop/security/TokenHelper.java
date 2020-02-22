@@ -36,14 +36,13 @@ public class TokenHelper {
     }
 
     public String generateToken(String username) {
-        String jws = Jwts.builder()
+        return Jwts.builder()
                 .setIssuer( APP_NAME )
                 .setSubject(username)
                 .setIssuedAt(generateCurrentDate())
                 .setExpiration(generateExpirationDate())
                 .signWith( SIGNATURE_ALGORITHM, SECRET )
                 .compact();
-        return jws;
     }
 
     public Claims getClaimsFromToken(String token) {
