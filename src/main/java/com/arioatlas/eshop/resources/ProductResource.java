@@ -4,7 +4,7 @@ import com.arioatlas.eshop.models.Product;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
-public class ProductResource extends RepresentationModel {
+public class ProductResource extends RepresentationModel<ProductResource> {
     @JsonProperty
     public long id;
     public String name;

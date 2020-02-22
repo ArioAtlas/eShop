@@ -7,7 +7,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 import java.util.List;
 
-public class OrderResource extends RepresentationModel {
+public class OrderResource extends RepresentationModel<OrderResource> {
     @JsonProperty
     public long id;
     public String name;

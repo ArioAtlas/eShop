@@ -7,7 +7,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 import java.util.List;
 
-public class GroupResource extends RepresentationModel {
+public class GroupResource extends RepresentationModel<GroupResource> {
     @JsonProperty
     public long id;
     public String groupName;
