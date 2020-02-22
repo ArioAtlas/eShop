@@ -15,6 +15,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.hateoas.client.LinkDiscoverer;
+import org.springframework.http.MediaType;
+import org.springframework.plugin.core.OrderAwarePluginRegistry;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.validation.Validator;
 import redis.clients.jedis.Jedis;
 

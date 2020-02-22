@@ -37,13 +37,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class)
             .authorizeRequests()
-            .antMatchers(HttpMethod.GET,"/product/**").permitAll()
-            .antMatchers(HttpMethod.GET,"/group/**").permitAll()
-            .anyRequest().authenticated()
+                .antMatchers(HttpMethod.GET,"/product/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/group/**").permitAll()
+                .antMatchers("/cart/**").permitAll()
+                .antMatchers("/v2/**").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
 //            .anyRequest().hasAuthority("admin")
-            .and().formLogin().successHandler(authenticationSuccessHandler)
-            .failureHandler(authenticationFailureHandler)
-            .and().csrf().disable();
+            .formLogin()
+                .successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
+                .and()
+            .csrf().disable();
 
     }
 }
