@@ -3,9 +3,11 @@ package com.arioatlas.eshop.services;
 import com.arioatlas.eshop.cahce.Cache;
 import com.arioatlas.eshop.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class CartServiceImpl implements CartService {
 
     @Autowired
