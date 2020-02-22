@@ -10,11 +10,17 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public TokenAuthenticationFilter jwtAuthenticationTokenFilter() throws Exception{
@@ -34,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET,"/product/**").permitAll()
             .antMatchers(HttpMethod.GET,"/group/**").permitAll()
             .anyRequest().authenticated()
-            .anyRequest().hasAuthority("admin")
+//            .anyRequest().hasAuthority("admin")
             .and().formLogin().successHandler(authenticationSuccessHandler)
             .failureHandler(authenticationFailureHandler)
             .and().csrf().disable();

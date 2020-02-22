@@ -1,16 +1,22 @@
 package com.arioatlas.eshop;
 
+import com.arioatlas.eshop.cahce.Cache;
+import com.arioatlas.eshop.cahce.RedisCache;
 import com.arioatlas.eshop.storage.StorageProperties;
 import com.arioatlas.eshop.storage.StorageService;
 import com.arioatlas.eshop.validators.GroupValidator;
 import com.arioatlas.eshop.validators.OrderValidator;
 import com.arioatlas.eshop.validators.ProductValidator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.validation.Validator;
+import redis.clients.jedis.Jedis;
 
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
@@ -38,6 +44,26 @@ public class EShopApplication {
 	@Bean
 	public Validator orderValidator(){
 		return new OrderValidator();
+	}
+
+	@Value("${redis.host}")
+	private String redisHost;
+	@Value("${redis.port}")
+	private int redisPort;
+	@Value("${redis.password}")
+	private String redisPassword;
+
+	@Bean
+	public Jedis redisCliFactory(){
+		Jedis jedis = new Jedis(redisHost, redisPort);
+		jedis.auth(redisPassword);
+		return jedis;
+	}
+
+	@Bean
+	@Autowired
+	public Cache cacheObject(ObjectMapper objectMapper){
+		return new RedisCache(objectMapper, redisCliFactory());
 	}
 
 }
